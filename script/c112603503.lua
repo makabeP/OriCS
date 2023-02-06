@@ -31,6 +31,7 @@ function cm.initial_effect(c)
 	e1:SetOperation(cm.desop)
 	c:RegisterEffect(e1)
 end
+cm.CardType_Order=true
 cm.listed_series={0xe74,0xe97}
 --destroy
 function cm.thcon(e,tp,eg,ep,ev,re,r,rp)

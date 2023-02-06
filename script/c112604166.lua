@@ -29,6 +29,7 @@ function cm.initial_effect(c)
 	e2:SetOperation(cm.thop)
 	c:RegisterEffect(e2)
 end
+cm.CardType_Order=true
 function cm.pfil1(c)
 	return c:IsSetCard(0xe74) and not c:IsType(TYPE_ORDER)
 end

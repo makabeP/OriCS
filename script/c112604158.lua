@@ -51,6 +51,7 @@ function cm.initial_effect(c)
 	e1:SetOperation(cm.operation)
 	c:RegisterEffect(e1)
 end
+cm.CardType_Order=true
 cm.listed_series={0xe74}
 function cm.regop(e,tp,eg,ep,ev,re,r,rp)
 	if rp~=tp or not re:GetHandler():IsSetCard(0xe74) then return end

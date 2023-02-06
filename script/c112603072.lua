@@ -4,7 +4,7 @@ local cm=_G["c"..m]
 function cm.initial_effect(c)
 
 	--spirit return
-	aux.EnableSpiritReturn(c,EVENT_SUMMON_SUCCESS,EVENT_FLIP)
+	Spirit.AddProcedure(c,EVENT_SUMMON_SUCCESS,EVENT_FLIP)
 	
 	--destroy
 	local e2=Effect.CreateEffect(c)
