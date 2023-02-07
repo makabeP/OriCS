@@ -463,7 +463,7 @@ function Duel.XyzSummon(...)
 	end
 end
 
---Èû¼¼°í °­ÇÑ ÈÄºÎÅ° ÅäÅ«
+--í˜ì„¸ê³  ê°•í•œ í›„ë¶€í‚¤ í† í°
 --[[
 function Duel.GetChangedTokenCode(code,tp)
 	local eset={Duel.IsPlayerAffectedByEffect(p,EFFECT_CHANGE_TOKEN)}
@@ -521,7 +521,7 @@ end
 ############  ############  ############  ############  ############
 --]]
 
---½ºÅ©¸³Æ® ¼Ó±â °ü·Ã: ¸´Ä«´Â ºü¸£´Ù
+--ìŠ¤í¬ë¦½íŠ¸ ì†ê¸° ê´€ë ¨: ë¦¿ì¹´ëŠ” ë¹ ë¥´ë‹¤
 Auxiliary.IreinaCurrentXyzHandler=nil
 function Auxiliary.WriteIreinaEffect(e,i,s)
 	local c=e:GetOwner()
@@ -1221,7 +1221,7 @@ RegEff.sgref(function(e,c)
 end)
 
 --Arcana Force utilities
---ÆíÁıÀÚ ÁÖ: Çù¾÷ °ü·ÃÇØ¼­ ¼öÁ¤ ¿©Áö ÀÖÀ½
+--í¸ì§‘ì ì£¼: í˜‘ì—… ê´€ë ¨í•´ì„œ ìˆ˜ì • ì—¬ì§€ ìˆìŒ
 ArcanaForceTarotCard={
 	62892347,
 	8396952,
@@ -1586,17 +1586,17 @@ local OldGodScrefFunc2 = function(e,c)
 	return {e,e1}
 end
 Auxiliary.oldgod_codes={
-	5257687,	--X¡¤E¡¤N¡¤O
-	70307656,	--±×·µÁö
-	78636495,	--´ºÆ®
-	39180960,	--¸®±×¶ó½º ¸®ÆÛ
-	75285069,	--¸ğÀÌ½ºÃ³ ¼ºÀÎ
-	4035199,	--¼ÎÀÌÇÁ ½º³»Ä¡
-	31242786,	--¿µÈ¥ Èí¼öÀÚ
-	2792265,	--ÀÌÇüÀÇ ÃßÁ¾ÀÚ
-	7914843,	--Àè Æ®·¹ÀÌ°Å ¸¶±×³İ
-	44913552,	--Å¸ÀÓ ÀÌÅÍ
-	18453130	--(custom) N¡¤U¡¤L¡¤L
+	5257687,	--XÂ·EÂ·NÂ·O
+	70307656,	--ê·¸ëŸ¿ì§€
+	78636495,	--ë‰´íŠ¸
+	39180960,	--ë¦¬ê·¸ë¼ìŠ¤ ë¦¬í¼
+	75285069,	--ëª¨ì´ìŠ¤ì²˜ ì„±ì¸
+	4035199,	--ì…°ì´í”„ ìŠ¤ë‚´ì¹˜
+	31242786,	--ì˜í˜¼ í¡ìˆ˜ì
+	2792265,	--ì´í˜•ì˜ ì¶”ì¢…ì
+	7914843,	--ì­ íŠ¸ë ˆì´ê±° ë§ˆê·¸ë„·
+	44913552,	--íƒ€ì„ ì´í„°
+	18453130	--(custom) NÂ·UÂ·LÂ·L
 }
 RegEff.scref(5257687,0,OldGodScrefFunc1)
 RegEff.scref(70307656,2,OldGodScrefFunc2)
@@ -1628,7 +1628,7 @@ function Auxiliary.GeminiStarOperation(e,tp,turncount)
 		e2:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
 		e2:SetDescription(aux.Stringid(18453156,0))
 		e2:SetTargetRange(LOCATION_HAND+LOCATION_MZONE,0)
-		e2:SetTarget(Auxiliary.TargetBoolFunction(Card.IsSetCard,"Á¦¹Ì´Ï:"))
+		e2:SetTarget(Auxiliary.TargetBoolFunction(Card.IsSetCard,"ì œë¯¸ë‹ˆ:"))
 		e2:SetValue(Auxiliary.GeminiStarValue)
 		Duel.RegisterEffect(e2,tp)
 		Duel.RegisterFlagEffect(tp,FLAG_EFFECT_GEMINI,0,0,0)
@@ -1668,8 +1668,8 @@ local GeminiStarScrefFunc = function(e,c)
 	e2:SetCode(EFFECT_UPDATE_DEFENSE)
 	return {e,e1,e2}
 end
-RegEff.scref(41587307,0,GeminiStarScrefFunc)	--ºÎ·¯Áø Á×µµ
-RegEff.scref(42199039,0,GeminiStarScrefFunc)	--¿äµµ Á×µµ
+RegEff.scref(41587307,0,GeminiStarScrefFunc)	--ë¶€ëŸ¬ì§„ ì£½ë„
+RegEff.scref(42199039,0,GeminiStarScrefFunc)	--ìš”ë„ ì£½ë„
 RegEff.scref(99970320,0,GeminiStarScrefFunc)	--####
 
 --Charlotte overrides
@@ -1725,8 +1725,8 @@ local AromaScrefFunc = function(e,c,amount)
 	end)
 	return e
 end
-RegEff.scref(38199696,0,AromaScrefFunc,500)	--·¹µå Æ÷¼Ç
-RegEff.scref(20871001,0,AromaScrefFunc,400)	--ºí·ç Æ÷¼Ç
+RegEff.scref(38199696,0,AromaScrefFunc,500)	--ë ˆë“œ í¬ì…˜
+RegEff.scref(20871001,0,AromaScrefFunc,400)	--ë¸”ë£¨ í¬ì…˜
 
 --Eine Kleine utilities
 local EineKleineScrefTable = {
@@ -1905,9 +1905,9 @@ local EineKleineScrefTable = {
 		end)
 	end}
 }
-RegEff.scref(18452777,0,EineKleineScrefTable[18452777][0])	--(custom) ¿å¸Á°ú ¿å¸ÁÀÇ Ç×¾Æ¸®
-RegEff.scref(35261759,0,EineKleineScrefTable[35261759][0])	--¿å¸Á°ú Å½¿åÀÇ Ç×¾Æ¸®
-RegEff.scref(84211599,0,EineKleineScrefTable[84211599][0])	--Á¹ºÎ¿Í °âÇãÀÇ Ç×¾Æ¸®
+RegEff.scref(18452777,0,EineKleineScrefTable[18452777][0])	--(custom) ìš•ë§ê³¼ ìš•ë§ì˜ í•­ì•„ë¦¬
+RegEff.scref(35261759,0,EineKleineScrefTable[35261759][0])	--ìš•ë§ê³¼ íƒìš•ì˜ í•­ì•„ë¦¬
+RegEff.scref(84211599,0,EineKleineScrefTable[84211599][0])	--ì¡¸ë¶€ì™€ ê²¸í—ˆì˜ í•­ì•„ë¦¬
 
 --Delightsworn utilities
 local DelightswornScrefFunc = function(e,c)
@@ -2030,24 +2030,24 @@ local DelightswornScrefTable = {
 		end
 	}
 }
-RegEff.scref(67750322,0,DelightswornScrefFunc)					--½ºÄÃ ¸¶ÀÌ½ºÅÍ
-RegEff.scref(59438930,0,DelightswornScrefFunc)					--À¯·ÉÅä³¢
-RegEff.scref(38814750,1,DelightswornScrefFunc)					--PSYÇÁ·¹ÀÓ±â¾î ¥ã
-RegEff.scref(14558127,0,DelightswornScrefFunc)					--ÇÏ·ç ¿ì¶ó¶ó
-RegEff.scref(73642296,0,DelightswornScrefFunc)					--ÀúÅÃ ¿Í¶ó½Ã
-RegEff.scref(52038441,0,DelightswornScrefTable[52038441][0])		--»ç¿ä ½Ã±¸·¹
-RegEff.scref(99000133,0,DelightswornScrefFunc)					--(custom) ¹«³à ¹ÌÄÚÅä
+RegEff.scref(67750322,0,DelightswornScrefFunc)					--ìŠ¤ì»¬ ë§ˆì´ìŠ¤í„°
+RegEff.scref(59438930,0,DelightswornScrefFunc)					--ìœ ë ¹í† ë¼
+RegEff.scref(38814750,1,DelightswornScrefFunc)					--PSYí”„ë ˆì„ê¸°ì–´ Î³
+RegEff.scref(14558127,0,DelightswornScrefFunc)					--í•˜ë£¨ ìš°ë¼ë¼
+RegEff.scref(73642296,0,DelightswornScrefFunc)					--ì €íƒ ì™€ë¼ì‹œ
+RegEff.scref(52038441,0,DelightswornScrefTable[52038441][0])		--ì‚¬ìš” ì‹œêµ¬ë ˆ
+RegEff.scref(99000133,0,DelightswornScrefFunc)					--(custom) ë¬´ë…€ ë¯¸ì½”í† 
 RegEff.scref(32415008,1,DelightswornScrefFunc)					--(custom) I'm not D.D.crow!
 RegEff.scref(32415008,2,DelightswornScrefFunc)					--(custom) I'm not D.D.crow!
-RegEff.scref(24508238,0,DelightswornScrefTable[24508238][0])		--D.D. Å©·Î¿ì
-RegEff.scref(97268402,0,DelightswornScrefTable[97268402][0])		--ÀÌÆåÆ® ºÉ·¯
-RegEff.scref(18452762,0,DelightswornScrefTable[18452762][0])		--(custom) ÀÌÆåÆ® ¼¼ÀÏ·¯
---RegEff.scref(18452813,0,nil)									--ÀÌÆåÆ® ½ºÄù¾î·¯
-RegEff.scref(112603120,0,DelightswornScrefTable[112603120][0])	--(custom) ¿ÍÅ¸½Ãº£ Å©¸®½º
-RegEff.scref(112603120,1,DelightswornScrefTable[112603120][1])	--(custom) ¿ÍÅ¸½Ãº£ Å©¸®½º
+RegEff.scref(24508238,0,DelightswornScrefTable[24508238][0])		--D.D. í¬ë¡œìš°
+RegEff.scref(97268402,0,DelightswornScrefTable[97268402][0])		--ì´í™íŠ¸ ëµëŸ¬
+RegEff.scref(18452762,0,DelightswornScrefTable[18452762][0])		--(custom) ì´í™íŠ¸ ì„¸ì¼ëŸ¬
+--RegEff.scref(18452813,0,nil)									--ì´í™íŠ¸ ìŠ¤í€˜ì–´ëŸ¬
+RegEff.scref(112603120,0,DelightswornScrefTable[112603120][0])	--(custom) ì™€íƒ€ì‹œë²  í¬ë¦¬ìŠ¤
+RegEff.scref(112603120,1,DelightswornScrefTable[112603120][1])	--(custom) ì™€íƒ€ì‹œë²  í¬ë¦¬ìŠ¤
 if YGOPRO_VERSION~="Percy/EDO" then
 	--temp
-	RegEff.scref(10045474,0,function(e,c)						--¹«ÇÑÆ÷¿µ
+	RegEff.scref(10045474,0,function(e,c)						--ë¬´í•œí¬ì˜
 		local filter=function(c,tp)
 			return c:IsFaceup()
 				and ((aux.disfilter1(c) and c:IsControler(1-tp) and c:IsLocation(LOCATION_MZONE))
@@ -2063,7 +2063,7 @@ if YGOPRO_VERSION~="Percy/EDO" then
 end
 
 --Time Capsule utilities
-RegEff.scref(CARD_TIME_CAPSULE,0,function(e,c)	--Å¸ÀÓ Ä¸½¶
+RegEff.scref(CARD_TIME_CAPSULE,0,function(e,c)	--íƒ€ì„ ìº¡ìŠ
 	e:SetOperation(function(e,tp,eg,ep,ev,re,r,rp)
 		local c=e:GetHandler()
 		if c:IsRelateToEffect(e) and not c:IsStatus(STATUS_LEAVE_CONFIRMED) then

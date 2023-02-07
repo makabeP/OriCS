@@ -1,4 +1,4 @@
---©║дШ╪г ╪рх╞
+--Л≈░М─╢Л┘≤ Л├▄М≥≤
 SUMMON_TYPE_EQUATION				=0x40003000
 REASON_EQUATION						=0x80000000
 CUSTOMTYPE_EQUATION					=0x2

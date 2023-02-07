@@ -62,7 +62,7 @@ function Duel.OrderSummon(p,c)
 	end
 end
 
---ø¿¥ı º“»Ø ¿Ø∆ø∏Æ∆º
+--Ïò§Îçî ÏÜåÌôò Ïú†Ìã∏Î¶¨Ìã∞
 
 function Auxiliary.AddOrderProcedure(c,dir,gf,...)
 	local f={...}
@@ -163,41 +163,36 @@ function Auxiliary.OrderOperation(gf,...)
 	end
 end
 
---¿∂«’ ≈∏¿‘ ªË¡¶
-
-	local type=Card.GetType
+--ÏúµÌï© ÌÉÄÏûÖ ÏÇ≠Ï†ú
+local type=Card.GetType
 	Card.GetType=function(c)
 	if c.CardType_Order then
 		return bit.bor(type(c),TYPE_FUSION)-TYPE_FUSION
 	end
 	return type(c)
 end
---
-	local otype=Card.GetOriginalType
+local otype=Card.GetOriginalType
 	Card.GetOriginalType=function(c)
 	if c.CardType_Order then
 		return bit.bor(otype(c),TYPE_FUSION)-TYPE_FUSION
 	end
 	return otype(c)
 end
---
-	local ftype=Card.GetFusionType
+local ftype=Card.GetFusionType
 	Card.GetFusionType=function(c)
 	if c.CardType_Order then
 		return bit.bor(ftype(c),TYPE_FUSION)-TYPE_FUSION
 	end
 	return ftype(c)
 end
---
-	local ptype=Card.GetPreviousTypeOnField
+local ptype=Card.GetPreviousTypeOnField
 	Card.GetPreviousTypeOnField=function(c)
 	if c.CardType_Order then
 		return bit.bor(ptype(c),TYPE_FUSION)-TYPE_FUSION
 	end
 	return ptype(c)
 end
---
-	local itype=Card.IsType
+local itype=Card.IsType
 	Card.IsType=function(c,t)
 	if c.CardType_Order then
 		if t==TYPE_FUSION then
@@ -207,8 +202,7 @@ end
 	end
 	return itype(c,t)
 end
---
-	local iftype=Card.IsFusionType
+local iftype=Card.IsFusionType
 	Card.IsFusionType=function(c,t)
 	if c.CardType_Order then
 		if t==TYPE_FUSION then
