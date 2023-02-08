@@ -372,7 +372,7 @@ function Auxiliary.ChainDelay(effect)
 		local ci=1<<i
 		if ci==CHAININFO_TRIGGERING_EFFECT then
 			Auxiliary.DelayedChainInfo[effect][ci]=effect
-		else
+		elseif i~=17 then
 			if type(Duel.GetChainInfo(0,ci))=="Group" then
 				local g=Duel.GetChainInfo(0,ci):Clone()
 				g:KeepAlive()
