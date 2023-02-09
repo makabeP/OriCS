@@ -1,26 +1,11 @@
---[[
-KoishiPro :
-dofile("expansions/init.lua") >> dofile("expansions/script/OriCS_init.lua")
-
-EDOPro :
-Duel.LoadScript("OriCS_init.lua") >> pcall(dofile,"expansions/init.lua")
---]]
-
---version check
+--Version Check
 if not YGOPRO_VERSION then
 	if EFFECT_FUSION_MAT_RESTRICTION then YGOPRO_VERSION="Percy/EDO"
 	elseif EFFECT_CHANGE_LINK_MARKER_KOISHI then YGOPRO_VERSION="Koishi"
 	else YGOPRO_VERSION="Core" end
-	--Debug.Message("OriCS_init says: Current Version is "..YGOPRO_VERSION)
 end
 
---init
-if not OriCS_initialized then
-	OriCS_initialized=true
-	local _ = pcall(dofile,"repositories/OriCS/init.lua") or pcall(dofile,"expansions/init.lua")
-end
-
---dependencies
+--Dependencies
 if YGOPRO_VERSION=="Percy/EDO" then
 	Auxiliary.FilterFaceupFunction=function(f,...)
 		local params={...}
@@ -28,7 +13,7 @@ if YGOPRO_VERSION=="Percy/EDO" then
 					return target:IsFaceup() and f(target,table.unpack(params))
 				end
 	end
-else --Koishi/Core
+else --Koishi, Core
 	Duel.LoadScript = function(s,forced)
 		local orics = "repositories/OriCS/script/" .. s
 		local corona = "repositories/CP19/script/" .. s
@@ -143,24 +128,67 @@ else --Koishi/Core
 	end
 end
 
---Effect.SetCountLimit
+--Constatns & Effect.SetCountLimit
+if IREDO_COMES_TRUE then --IreinaPro
+	EFFECT_ADD_FUSION_CODE	=340
+	EFFECT_QP_ACT_IN_SET_TURN=359
+	EFFECT_COUNT_CODE_OATH	=0x1
+	EFFECT_COUNT_CODE_DUEL	=0x2
+	EFFECT_COUNT_CODE_SINGLE=0x4
+	OPCODE_ADD				=0x40000000
+	OPCODE_SUB				=0x40000001
+	OPCODE_MUL				=0x40000002
+	OPCODE_DIV				=0x40000003
+	OPCODE_AND				=0x40000004
+	OPCODE_OR				=0x40000005
+	OPCODE_NEG				=0x40000006
+	OPCODE_NOT				=0x40000007
+	OPCODE_ISCODE			=0x40000100
+	OPCODE_ISSETCARD		=0x40000101
+	OPCODE_ISTYPE			=0x40000102
+	OPCODE_ISRACE			=0x40000103
+	OPCODE_ISATTRIBUTE		=0x40000104
+	Auxiliary.Stringid=function(code,id)
+		return code*16+id
+	end
+	Card.CanAttack=function(c)
+		return c:IsAttackable()
+	end
+	Card.IsSummonCode=function(c,sc,sumtype,sp,code)
+		if sumtype&SUMMON_TYPE_FUSION==SUMMON_TYPE_FUSION then
+			return c:IsFusionCode(code)
+		end
+		return c:IsCode(code)
+	end
+	Card.IsGeminiState=Card.IsDualState
+	Duel.IsDuelType=aux.FALSE
+else
+	if YGOPRO_VERSION=="Percy/EDO" then --EDOPro
+		SUMMON_TYPE_ADVANCE=SUMMON_TYPE_TRIBUTE
+	else --Koishi, Core
+		EFFECT_COUNT_CODE_OATH	=0x1
+		EFFECT_COUNT_CODE_DUEL	=0x2
+		EFFECT_COUNT_CODE_SINGLE=0x4
+	end
+end
+
 local setCntLmt=Effect.SetCountLimit
 global_eff_count_limit_max={}
 global_eff_count_limit_code={}
 global_eff_count_limit_flag={}
-
 Effect.SetCountLimit=function(e,max,code,flag,...)
-	if IREDO_COMES_TRUE or YGOPRO_VERSION~="Percy/EDO" then
+	if IREDO_COMES_TRUE or YGOPRO_VERSION~="Percy/EDO" then --IreinaPro, Koishi, Core (convert from EDOPro)
 		if type(code)=="table" then
-			code=code[1]+code[2]
+			code=code[1]+code[2] --차후 수정 필요
 		end
-		if flag then
+		if flag and type(flag)=="number" then
+			local cflag=(flag<<28)
+			if flag==EFFECT_COUNT_CODE_SINGLE then cflag=1 end
+			flag=cflag
 			code=code+flag
 		end
-	else
-		if type(flag)=="number" then
-			flag=(flag>>28)
-		elseif type(code)=="number" then
+	else --EDOPro (convert from Koishi, Core)
+		if type(flag)~="number" and type(code)=="number" then
 			local ccode=code&0x8fffffff
 			local cflag=code&0x70000000
 			if cflag>0 then
@@ -168,7 +196,7 @@ Effect.SetCountLimit=function(e,max,code,flag,...)
 				flag=(cflag>>28)
 			elseif ccode==1 then
 				code=0
-				flag=4
+				flag=EFFECT_COUNT_CODE_SINGLE
 			end
 		end
 	end
@@ -177,6 +205,76 @@ Effect.SetCountLimit=function(e,max,code,flag,...)
 	global_eff_count_limit_flag[e]=flag
 	setCntLmt(e,max,code,flag,...)
 end
+
+--Hand Test
+if Duel.GetFieldGroupCount(1,LOCATION_DECK,0)==0 and Duel.IsDuelType(DUEL_ATTACK_FIRST_TURN) then
+	local f=io.open("deck/handtest.ydk","r")
+	if f==nil then
+		return
+	end
+	local loc=0
+	local dt={}
+	local et={}
+	for line in f:lines() do
+		if line=="#main" then
+			loc=LOCATION_DECK
+		elseif line=="#extra" then
+			loc=LOCATION_EXTRA
+		elseif line=="!side" then
+			loc=0
+		elseif loc~=0 then
+			local code=tonumber(line)
+			if loc==LOCATION_DECK then
+				table.insert(dt,code)
+			elseif loc==LOCATION_EXTRA then
+				table.insert(et,code)
+			end
+		end
+	end
+	local ct={}
+	local rt={}
+	for i=1,#dt do
+		while true do
+			local rn=Duel.GetRandomNumber(1,#dt)
+			if rt[rn]==nil then
+				rt[rn]=true
+				ct[i]=rn
+				break
+			end
+		end
+	end
+	for i=1,#dt do
+		local code=dt[ct[i]]
+		Debug.AddCard(code,1,1,LOCATION_DECK,0,POS_FACEDOWN)
+	end
+	for i=1,#et do
+		local code=et[i]
+		Debug.AddCard(code,1,1,LOCATION_EXTRA,0,POS_FACEDOWN)
+	end
+	local e1=Effect.GlobalEffect()
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_CANNOT_BP)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e1:SetReset(RESET_PHASE+PHASE_END)
+	e1:SetTargetRange(1,0)
+	Duel.RegisterEffect(e1,0)
+end
+
+--Convert from Core
+Duel.LoadScript("OriCS_proc_fusion.lua")
+Duel.LoadScript("OriCS_proc_link.lua")
+Duel.LoadScript("OriCS_proc_ritual.lua")
+Duel.LoadScript("OriCS_proc_synchro.lua")
+Duel.LoadScript("OriCS_proc_xyz.lua")
+Duel.LoadScript("convert-from-core/core_constant.lua")
+if IREDO_COMES_TRUE==nil then Duel.LoadScript("convert-from-core/core_proc_procs.lua") end
+Duel.LoadScript("convert-from-core/core_proc_fusion.lua")
+Duel.LoadScript("convert-from-core/core_proc_link.lua")
+Duel.LoadScript("convert-from-core/core_proc_pendulum.lua")
+Duel.LoadScript("convert-from-core/core_proc_ritual.lua")
+Duel.LoadScript("convert-from-core/core_proc_synchro.lua")
+Duel.LoadScript("convert-from-core/core_proc_xyz.lua")
+Duel.LoadScript("convert-from-core/core_utility.lua")
 
 --OriCS utilities
 Duel.LoadScript("_register_effect.lua");
