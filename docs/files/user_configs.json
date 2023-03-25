@@ -2,7 +2,7 @@
 	"repos": [
 		{
 			"url": "https://github.com/JSY1728/EDOPRO-Korean-CDB-TEST",
-			"repo_name": "Project Ignis 한국어 패치",
+			"repo_name": "한국어 패치 (팀 ALL YGOPRO)",
 			"repo_path": "./repositories/languages/한국어",
 			"is_language": true,
 			"language": "한국어",
@@ -14,6 +14,7 @@
 			"repo_name": "OriCS",
 			"repo_path": "./repositories/OriCS",
 			"data_path": "",
+			"script_path": "script",
 			"should_update": true,
 			"should_read": true
 		},
