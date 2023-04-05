@@ -1,1 +1,1 @@
-Duel.LoadScript("OriCS_init.lua")
+Duel.LoadScript("CS_init.lua")
